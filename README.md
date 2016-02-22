@@ -1,6 +1,6 @@
 # c-utils-embd
 
-C utility library for embedded systems.
+C utility libraries for embedded systems.
 
 ## Files
 
