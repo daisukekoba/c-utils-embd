@@ -1,6 +1,6 @@
 /*!
  * \file
- * Ringbuffer
+ * Ring buffer
  *
  * Fixed size queue
  */
