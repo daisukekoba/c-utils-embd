@@ -24,7 +24,7 @@ SRC_DIR = ..
 BUILD_DIR = _build
 GTEST_DIR = /usr/src/gtest
 
-SRCS = 
+SRCS = scheduler.c
 TEST_SRCS = $(wildcard *_test.cpp)
 OBJS = $(patsubst %.c,$(BUILD_DIR)/%.o,$(SRCS))
 OBJS += $(patsubst %.cpp,$(BUILD_DIR)/%.o,$(TEST_SRCS))
