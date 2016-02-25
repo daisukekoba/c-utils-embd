@@ -83,7 +83,7 @@ bool Scheduler_Unregister(void(*job)(void))
     return false;
 }
 
-void Scheduler_Handler(uint32_t tick)
+void Scheduler_Run(uint32_t tick)
 {
     if (!l_active) { return; }
     const uint32_t diff = tick - l_tick;

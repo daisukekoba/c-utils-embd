@@ -103,22 +103,22 @@ TEST(Scheduler,StopAndStart)
     Scheduler_Init();
     EXPECT_TRUE(Scheduler_Register(2, job0));
     for (int i = 100; i < 200; ++i) {
-        Scheduler_Handler(i);
+        Scheduler_Run(i);
     }
     EXPECT_FALSE(l_job0);
 
     Scheduler_Start(200);
     EXPECT_FALSE(l_job0);
-    Scheduler_Handler(201);
+    Scheduler_Run(201);
     EXPECT_FALSE(l_job0);
-    Scheduler_Handler(202);
+    Scheduler_Run(202);
     EXPECT_TRUE(l_job0);
     reset();
 
     Scheduler_Stop();
     EXPECT_FALSE(l_job0);
     for (int i = 203; i < 300; ++i) {
-        Scheduler_Handler(i);
+        Scheduler_Run(i);
     }
     EXPECT_FALSE(l_job0);
 }
@@ -130,9 +130,9 @@ TEST(Scheduler,Overflow)
     EXPECT_TRUE(Scheduler_Register(4, job0));
     Scheduler_Start(0xFFFFFFFE);
     EXPECT_FALSE(l_job0);
-    Scheduler_Handler(0);
+    Scheduler_Run(0);
     EXPECT_FALSE(l_job0);
-    Scheduler_Handler(2);
+    Scheduler_Run(2);
     EXPECT_TRUE(l_job0);
 }
 
@@ -149,30 +149,30 @@ TEST(Scheduler,RegularIntervals)
     EXPECT_FALSE(l_job1);
     EXPECT_FALSE(l_job2);
 
-    Scheduler_Handler(1001);
+    Scheduler_Run(1001);
     EXPECT_FALSE(l_job0);
     EXPECT_FALSE(l_job1);
     EXPECT_FALSE(l_job2);
 
-    Scheduler_Handler(1002);
+    Scheduler_Run(1002);
     EXPECT_TRUE(l_job0);
     EXPECT_FALSE(l_job1);
     EXPECT_FALSE(l_job2);
     reset();
 
-    Scheduler_Handler(1003);
+    Scheduler_Run(1003);
     EXPECT_FALSE(l_job0);
     EXPECT_TRUE(l_job1);
     EXPECT_FALSE(l_job2);
     reset();
 
-    Scheduler_Handler(1004);
+    Scheduler_Run(1004);
     EXPECT_TRUE(l_job0);
     EXPECT_FALSE(l_job1);
     EXPECT_FALSE(l_job2);
     reset();
 
-    Scheduler_Handler(1005);
+    Scheduler_Run(1005);
     EXPECT_FALSE(l_job0);
     EXPECT_FALSE(l_job1);
     EXPECT_TRUE(l_job2);
@@ -188,24 +188,24 @@ TEST(Scheduler,IrregularIntervals)
 
     Scheduler_Start(1000);
 
-    Scheduler_Handler(1005);
+    Scheduler_Run(1005);
     EXPECT_TRUE(l_job0);
     EXPECT_TRUE(l_job1);
     EXPECT_TRUE(l_job2);
     reset();
 
-    Scheduler_Handler(1006);
+    Scheduler_Run(1006);
     EXPECT_FALSE(l_job0);
     EXPECT_FALSE(l_job1);
     EXPECT_FALSE(l_job2);
 
-    Scheduler_Handler(1008);
+    Scheduler_Run(1008);
     EXPECT_TRUE(l_job0);
     EXPECT_TRUE(l_job1);
     EXPECT_FALSE(l_job2);
     reset();
 
-    Scheduler_Handler(1010);
+    Scheduler_Run(1010);
     EXPECT_TRUE(l_job0);
     EXPECT_FALSE(l_job1);
     EXPECT_TRUE(l_job2);
