@@ -28,6 +28,7 @@
 
 typedef struct {
     int32_t remain;
+    int32_t start;
     int32_t interval;
     void(*job)(void);
 } job_t;
@@ -50,7 +51,7 @@ void Scheduler_Start(uint32_t tick)
     l_tick = tick;
     l_active = true;
     for (int i = 0; i < SCHEDULER_JOB_NUM; ++i) {
-        l_job[i].remain = l_job[i].interval;
+        l_job[i].remain = l_job[i].start;
     }
 }
 
@@ -59,12 +60,13 @@ void Scheduler_Stop(void)
     l_active = false;
 }
 
-bool Scheduler_Register(uint32_t interval, void(*job)(void))
+bool Scheduler_Register(uint32_t start, uint32_t interval, void(*job)(void))
 {
     if (interval > INT32_MAX) { return false; }
     for (int i = 0; i < SCHEDULER_JOB_NUM; ++i) {
         if (l_job[i].job == job) { return false; }
         if (l_job[i].job) { continue; }
+        l_job[i].start = (int32_t)start;
         l_job[i].interval = (int32_t)interval;
         l_job[i].job = job;
         return true;

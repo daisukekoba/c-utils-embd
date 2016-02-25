@@ -61,39 +61,39 @@ void job16() {}
 TEST(Scheduler,Register)
 {
     Scheduler_Init();
-    EXPECT_TRUE(Scheduler_Register(1, job0));
-    EXPECT_TRUE(Scheduler_Register(1, job1));
-    EXPECT_TRUE(Scheduler_Register(1, job2));
-    EXPECT_TRUE(Scheduler_Register(1, job3));
-    EXPECT_TRUE(Scheduler_Register(1, job4));
-    EXPECT_TRUE(Scheduler_Register(1, job5));
-    EXPECT_TRUE(Scheduler_Register(1, job6));
-    EXPECT_TRUE(Scheduler_Register(1, job7));
-    EXPECT_TRUE(Scheduler_Register(1, job8));
-    EXPECT_TRUE(Scheduler_Register(1, job9));
-    EXPECT_TRUE(Scheduler_Register(1, job10));
-    EXPECT_TRUE(Scheduler_Register(1, job11));
-    EXPECT_TRUE(Scheduler_Register(1, job12));
-    EXPECT_TRUE(Scheduler_Register(1, job13));
-    EXPECT_TRUE(Scheduler_Register(1, job14));
-    EXPECT_TRUE(Scheduler_Register(1, job15));
-    EXPECT_FALSE(Scheduler_Register(1, job16));
+    EXPECT_TRUE(Scheduler_Register(0, 1, job0));
+    EXPECT_TRUE(Scheduler_Register(0, 1, job1));
+    EXPECT_TRUE(Scheduler_Register(0, 1, job2));
+    EXPECT_TRUE(Scheduler_Register(0, 1, job3));
+    EXPECT_TRUE(Scheduler_Register(0, 1, job4));
+    EXPECT_TRUE(Scheduler_Register(0, 1, job5));
+    EXPECT_TRUE(Scheduler_Register(0, 1, job6));
+    EXPECT_TRUE(Scheduler_Register(0, 1, job7));
+    EXPECT_TRUE(Scheduler_Register(0, 1, job8));
+    EXPECT_TRUE(Scheduler_Register(0, 1, job9));
+    EXPECT_TRUE(Scheduler_Register(0, 1, job10));
+    EXPECT_TRUE(Scheduler_Register(0, 1, job11));
+    EXPECT_TRUE(Scheduler_Register(0, 1, job12));
+    EXPECT_TRUE(Scheduler_Register(0, 1, job13));
+    EXPECT_TRUE(Scheduler_Register(0, 1, job14));
+    EXPECT_TRUE(Scheduler_Register(0, 1, job15));
+    EXPECT_FALSE(Scheduler_Register(0, 1, job16));
 }
 
 TEST(Scheduler,RegisterSameJob)
 {
     Scheduler_Init();
-    EXPECT_TRUE(Scheduler_Register(1, job0));
-    EXPECT_FALSE(Scheduler_Register(1, job0));
+    EXPECT_TRUE(Scheduler_Register(0, 1, job0));
+    EXPECT_FALSE(Scheduler_Register(0, 1, job0));
 }
 
 TEST(Scheduler,Unregister)
 {
     Scheduler_Init();
-    EXPECT_TRUE(Scheduler_Register(1, job0));
+    EXPECT_TRUE(Scheduler_Register(0, 1, job0));
     EXPECT_TRUE(Scheduler_Unregister(job0));
 
-    EXPECT_TRUE(Scheduler_Register(1, job0));
+    EXPECT_TRUE(Scheduler_Register(0, 1, job0));
     EXPECT_FALSE(Scheduler_Unregister(job1));
 }
 
@@ -101,14 +101,16 @@ TEST(Scheduler,StopAndStart)
 {
     reset();
     Scheduler_Init();
-    EXPECT_TRUE(Scheduler_Register(2, job0));
+    EXPECT_TRUE(Scheduler_Register(0, 2, job0));
     for (int i = 100; i < 200; ++i) {
         Scheduler_Run(i);
     }
     EXPECT_FALSE(l_job0);
 
     Scheduler_Start(200);
-    EXPECT_FALSE(l_job0);
+    Scheduler_Run(200);
+    EXPECT_TRUE(l_job0);
+    reset();
     Scheduler_Run(201);
     EXPECT_FALSE(l_job0);
     Scheduler_Run(202);
@@ -127,27 +129,57 @@ TEST(Scheduler,Overflow)
 {
     reset();
     Scheduler_Init();
-    EXPECT_TRUE(Scheduler_Register(4, job0));
+    EXPECT_TRUE(Scheduler_Register(0, 4, job0));
     Scheduler_Start(0xFFFFFFFE);
-    EXPECT_FALSE(l_job0);
+    Scheduler_Run(0xFFFFFFFE);
+    EXPECT_TRUE(l_job0);
+    reset();
     Scheduler_Run(0);
     EXPECT_FALSE(l_job0);
     Scheduler_Run(2);
     EXPECT_TRUE(l_job0);
 }
 
+TEST(Scheduler,StartTime)
+{
+    reset();
+    Scheduler_Init();
+    EXPECT_TRUE(Scheduler_Register(1, 2, job0));
+    EXPECT_TRUE(Scheduler_Register(0, 3, job1));
+
+    Scheduler_Start(1000);
+    Scheduler_Run(1000);
+    EXPECT_FALSE(l_job0);
+    EXPECT_TRUE(l_job1);
+    reset();
+    Scheduler_Run(1001);
+    EXPECT_TRUE(l_job0);
+    EXPECT_FALSE(l_job1);
+    reset();
+    Scheduler_Run(1002);
+    EXPECT_FALSE(l_job0);
+    EXPECT_FALSE(l_job1);
+    reset();
+    Scheduler_Run(1003);
+    EXPECT_TRUE(l_job0);
+    EXPECT_TRUE(l_job1);
+    reset();
+}
+
 TEST(Scheduler,RegularIntervals)
 {
     reset();
     Scheduler_Init();
-    EXPECT_TRUE(Scheduler_Register(2, job0));
-    EXPECT_TRUE(Scheduler_Register(3, job1));
-    EXPECT_TRUE(Scheduler_Register(5, job2));
+    EXPECT_TRUE(Scheduler_Register(0, 2, job0));
+    EXPECT_TRUE(Scheduler_Register(0, 3, job1));
+    EXPECT_TRUE(Scheduler_Register(0, 5, job2));
 
     Scheduler_Start(1000);
-    EXPECT_FALSE(l_job0);
-    EXPECT_FALSE(l_job1);
-    EXPECT_FALSE(l_job2);
+    Scheduler_Run(1000);
+    EXPECT_TRUE(l_job0);
+    EXPECT_TRUE(l_job1);
+    EXPECT_TRUE(l_job2);
+    reset();
 
     Scheduler_Run(1001);
     EXPECT_FALSE(l_job0);
@@ -182,11 +214,13 @@ TEST(Scheduler,IrregularIntervals)
 {
     reset();
     Scheduler_Init();
-    EXPECT_TRUE(Scheduler_Register(2, job0));
-    EXPECT_TRUE(Scheduler_Register(3, job1));
-    EXPECT_TRUE(Scheduler_Register(5, job2));
+    EXPECT_TRUE(Scheduler_Register(0, 2, job0));
+    EXPECT_TRUE(Scheduler_Register(0, 3, job1));
+    EXPECT_TRUE(Scheduler_Register(0, 5, job2));
 
     Scheduler_Start(1000);
+    Scheduler_Run(1000);
+    reset();
 
     Scheduler_Run(1005);
     EXPECT_TRUE(l_job0);
