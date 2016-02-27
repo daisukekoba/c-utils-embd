@@ -90,8 +90,8 @@ TEST(Scheduler, RegisterLimit)
 {
     Scheduler_Init();
     EXPECT_TRUE(Scheduler_Register(0x7FFFFFFF, 0x7FFFFFFF, job0));
-    EXPECT_FALSE(Scheduler_Register(0x80000000, 0x7FFFFFFF, job0));
-    EXPECT_FALSE(Scheduler_Register(0x7FFFFFFF, 0x80000000, job0));
+    EXPECT_FALSE(Scheduler_Register(0x80000000, 0x7FFFFFFF, job1));
+    EXPECT_FALSE(Scheduler_Register(0x7FFFFFFF, 0x80000000, job2));
 }
 
 TEST(Scheduler, Unregister)
