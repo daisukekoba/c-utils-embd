@@ -30,11 +30,11 @@
 #include <stdint.h>
 
 #ifndef RINGBUFFER_SIZE
-#  define RINGBUFFER_SIZE (31)
+#define RINGBUFFER_SIZE (31)
 #endif
 
 #ifndef RINGBUFFER_ELEMENT_T
-#  define RINGBUFFER_ELEMENT_T int
+#define RINGBUFFER_ELEMENT_T int
 #endif
 
 typedef struct {
@@ -70,8 +70,10 @@ static bool ringbuffer_IsFull(const ringbuffer_t* buf)
 
 static bool ringbuffer_Push(ringbuffer_t* buf, const RINGBUFFER_ELEMENT_T* e)
 {
-    if (ringbuffer_IsFull(buf)) { return /*Full*/ false; }
-    
+    if (ringbuffer_IsFull(buf)) {
+        return /*Full*/ false;
+    }
+
     buf->buf[buf->wp] = *e;
     buf->wp = ringbuffer_next(buf->wp);
     return true;
@@ -79,7 +81,9 @@ static bool ringbuffer_Push(ringbuffer_t* buf, const RINGBUFFER_ELEMENT_T* e)
 
 static bool ringbuffer_Pop(ringbuffer_t* buf, RINGBUFFER_ELEMENT_T* e)
 {
-    if (ringbuffer_IsEmpty(buf)) { return /*Empty*/ false; }
+    if (ringbuffer_IsEmpty(buf)) {
+        return /*Empty*/ false;
+    }
 
     *e = buf->buf[buf->rp];
     buf->rp = ringbuffer_next(buf->rp);

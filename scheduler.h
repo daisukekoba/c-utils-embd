@@ -31,8 +31,8 @@
 void Scheduler_Init(void);
 void Scheduler_Start(uint32_t tick);
 void Scheduler_Stop(void);
-bool Scheduler_Register(uint32_t start, uint32_t interval, void(*job)(void));
-bool Scheduler_Unregister(void(*job)(void));
+bool Scheduler_Register(uint32_t start, uint32_t interval, void (*job)(void));
+bool Scheduler_Unregister(void (*job)(void));
 void Scheduler_Run(uint32_t tick);
 
 #endif /* SCHEDULER_H_ */

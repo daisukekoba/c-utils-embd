@@ -19,7 +19,7 @@
  *    misrepresented as being the original software.
  * 3. This notice may not be removed or altered from any source distribution.
  */
- 
+
 #include <gtest/gtest.h>
 
 extern "C" {
@@ -28,7 +28,7 @@ extern "C" {
 #include "ringbuffer.h"
 }
 
-TEST(RingBuffer,Init)
+TEST(RingBuffer, Init)
 {
     ringbuffer_t rb;
 
@@ -37,7 +37,7 @@ TEST(RingBuffer,Init)
     EXPECT_FALSE(ringbuffer_IsFull(&rb));
 }
 
-TEST(RingBuffer,One)
+TEST(RingBuffer, One)
 {
     ringbuffer_t rb;
     char c = 0;
@@ -52,7 +52,7 @@ TEST(RingBuffer,One)
     EXPECT_FALSE(ringbuffer_IsFull(&rb));
 }
 
-TEST(RingBuffer,EmptyToFull)
+TEST(RingBuffer, EmptyToFull)
 {
     ringbuffer_t rb;
     char c = 0;
@@ -74,7 +74,7 @@ TEST(RingBuffer,EmptyToFull)
     EXPECT_TRUE(ringbuffer_IsFull(&rb));
 }
 
-TEST(RingBuffer,FullToEmpty)
+TEST(RingBuffer, FullToEmpty)
 {
     ringbuffer_t rb;
     char c = 0;
@@ -105,7 +105,7 @@ TEST(RingBuffer,FullToEmpty)
     EXPECT_FALSE(ringbuffer_IsFull(&rb));
 }
 
-TEST(RingBuffer,FiFo)
+TEST(RingBuffer, FiFo)
 {
     ringbuffer_t rb;
     char a;

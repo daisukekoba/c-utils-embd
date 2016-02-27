@@ -30,7 +30,7 @@ typedef struct {
     int32_t remain;
     int32_t start;
     int32_t interval;
-    void(*job)(void);
+    void (*job)(void);
 } job_t;
 
 static job_t l_job[SCHEDULER_JOB_NUM];
@@ -55,17 +55,20 @@ void Scheduler_Start(uint32_t tick)
     }
 }
 
-void Scheduler_Stop(void)
-{
-    l_active = false;
-}
+void Scheduler_Stop(void) { l_active = false; }
 
-bool Scheduler_Register(uint32_t start, uint32_t interval, void(*job)(void))
+bool Scheduler_Register(uint32_t start, uint32_t interval, void (*job)(void))
 {
-    if (interval > INT32_MAX) { return false; }
+    if (interval > INT32_MAX) {
+        return false;
+    }
     for (int i = 0; i < SCHEDULER_JOB_NUM; ++i) {
-        if (l_job[i].job == job) { return false; }
-        if (l_job[i].job) { continue; }
+        if (l_job[i].job == job) {
+            return false;
+        }
+        if (l_job[i].job) {
+            continue;
+        }
         l_job[i].start = (int32_t)start;
         l_job[i].interval = (int32_t)interval;
         l_job[i].job = job;
@@ -74,7 +77,7 @@ bool Scheduler_Register(uint32_t start, uint32_t interval, void(*job)(void))
     return false;
 }
 
-bool Scheduler_Unregister(void(*job)(void))
+bool Scheduler_Unregister(void (*job)(void))
 {
     for (int i = 0; i < SCHEDULER_JOB_NUM; ++i) {
         if (l_job[i].job == job) {
@@ -87,11 +90,15 @@ bool Scheduler_Unregister(void(*job)(void))
 
 void Scheduler_Run(uint32_t tick)
 {
-    if (!l_active) { return; }
+    if (!l_active) {
+        return;
+    }
     const uint32_t diff = tick - l_tick;
     l_tick = tick;
     for (int i = 0; i < SCHEDULER_JOB_NUM; ++i) {
-        if (!l_job[i].job) { continue; }
+        if (!l_job[i].job) {
+            continue;
+        }
         l_job[i].remain -= diff;
         if (l_job[i].remain <= 0) {
             l_job[i].remain = l_job[i].interval;

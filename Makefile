@@ -29,3 +29,7 @@ clean:
 distclean:
 	$(MAKE) -C test distclean
 .PHONY: distclean
+
+format:
+	clang-format -style=WebKit -i *.c *.h test/*.cpp
+.PHONY: format

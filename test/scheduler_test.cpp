@@ -19,7 +19,7 @@
  *    misrepresented as being the original software.
  * 3. This notice may not be removed or altered from any source distribution.
  */
- 
+
 #include <gtest/gtest.h>
 
 extern "C" {
@@ -55,10 +55,9 @@ void job13() {}
 void job14() {}
 void job15() {}
 void job16() {}
-
 }
 
-TEST(Scheduler,Register)
+TEST(Scheduler, Register)
 {
     Scheduler_Init();
     EXPECT_TRUE(Scheduler_Register(0, 1, job0));
@@ -80,14 +79,14 @@ TEST(Scheduler,Register)
     EXPECT_FALSE(Scheduler_Register(0, 1, job16));
 }
 
-TEST(Scheduler,RegisterSameJob)
+TEST(Scheduler, RegisterSameJob)
 {
     Scheduler_Init();
     EXPECT_TRUE(Scheduler_Register(0, 1, job0));
     EXPECT_FALSE(Scheduler_Register(0, 1, job0));
 }
 
-TEST(Scheduler,Unregister)
+TEST(Scheduler, Unregister)
 {
     Scheduler_Init();
     EXPECT_TRUE(Scheduler_Register(0, 1, job0));
@@ -97,7 +96,7 @@ TEST(Scheduler,Unregister)
     EXPECT_FALSE(Scheduler_Unregister(job1));
 }
 
-TEST(Scheduler,StopAndStart)
+TEST(Scheduler, StopAndStart)
 {
     reset();
     Scheduler_Init();
@@ -125,7 +124,7 @@ TEST(Scheduler,StopAndStart)
     EXPECT_FALSE(l_job0);
 }
 
-TEST(Scheduler,Overflow)
+TEST(Scheduler, Overflow)
 {
     reset();
     Scheduler_Init();
@@ -140,7 +139,7 @@ TEST(Scheduler,Overflow)
     EXPECT_TRUE(l_job0);
 }
 
-TEST(Scheduler,StartTime)
+TEST(Scheduler, StartTime)
 {
     reset();
     Scheduler_Init();
@@ -166,7 +165,7 @@ TEST(Scheduler,StartTime)
     reset();
 }
 
-TEST(Scheduler,RegularIntervals)
+TEST(Scheduler, RegularIntervals)
 {
     reset();
     Scheduler_Init();
@@ -210,7 +209,7 @@ TEST(Scheduler,RegularIntervals)
     EXPECT_TRUE(l_job2);
 }
 
-TEST(Scheduler,IrregularIntervals)
+TEST(Scheduler, IrregularIntervals)
 {
     reset();
     Scheduler_Init();
