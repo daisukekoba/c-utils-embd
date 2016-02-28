@@ -18,16 +18,26 @@
 #    misrepresented as being the original software.
 # 3. This notice may not be removed or altered from any source distribution.
 
+BUILD_DIR = _build
+
 test:
 	$(MAKE) -C test
 .PHONY: test
 
+doc:
+	if [ ! -d $(BUILD_DIR) ]; then mkdir $(BUILD_DIR); fi
+	doxygen
+.PHONY: doc
+
 clean:
 	$(MAKE) -C test clean
+	$(RM) -r $(BUILD_DIR)/html
 .PHONY: clean
 
 distclean:
 	$(MAKE) -C test distclean
+	$(RM) doxygen_sqlite3.db
+	$(RM) -r $(BUILD_DIR)
 .PHONY: distclean
 
 format:
