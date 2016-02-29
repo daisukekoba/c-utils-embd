@@ -1,3 +1,6 @@
+/*!
+ * \file
+ */
 /*
  * zlib License
  *
