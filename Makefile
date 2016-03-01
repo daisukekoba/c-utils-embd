@@ -20,6 +20,8 @@
 
 BUILD_DIR = _build
 
+SRCS = $(wildcard *.c) $(wildcard *.h) $(wildcard test/*.cpp)
+
 test:
 	$(MAKE) -C test
 .PHONY: test
@@ -41,5 +43,5 @@ distclean:
 .PHONY: distclean
 
 format:
-	clang-format -style=WebKit -i *.c *.h test/*.cpp
+	clang-format -style=WebKit -i $(filter-out binary.h,$(SRCS))
 .PHONY: format
