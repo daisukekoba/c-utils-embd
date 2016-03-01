@@ -26,9 +26,9 @@ GTEST_DIR = /usr/src/gtest
 
 SRCS = scheduler.c
 TEST_SRCS = $(wildcard *_test.cpp)
-OBJS = $(patsubst %.c,$(BUILD_DIR)/%.o,$(SRCS))
-OBJS += $(patsubst %.cpp,$(BUILD_DIR)/%.o,$(TEST_SRCS))
-OBJS += $(addprefix $(BUILD_DIR)/, gtest-all.o gtest_main.o)
+OBJS = $(patsubst %.c,$(BUILD_DIR)/%.o,$(SRCS)) \
+        $(patsubst %.cpp,$(BUILD_DIR)/%.o,$(TEST_SRCS)) \
+        $(addprefix $(BUILD_DIR)/,gtest-all.o gtest_main.o)
 
 CC = gcc
 CXX = g++
