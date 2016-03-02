@@ -251,3 +251,29 @@ TEST(Scheduler, IrregularIntervals)
     EXPECT_FALSE(l_job1);
     EXPECT_TRUE(l_job2);
 }
+
+TEST(Scheduler, LongIntervals)
+{
+    reset();
+    Scheduler_Init();
+    EXPECT_TRUE(Scheduler_Register(0, 2, job0));
+    EXPECT_TRUE(Scheduler_Register(0, 0x7FFFFFFF, job1));
+
+    Scheduler_Start(0);
+    Scheduler_Run(0);
+    reset();
+
+    Scheduler_Run(INT32_MAX);
+    EXPECT_TRUE(l_job0);
+    EXPECT_TRUE(l_job1);
+    reset();
+
+    Scheduler_Run(0);
+    EXPECT_TRUE(l_job0);
+    EXPECT_TRUE(l_job1);
+    reset();
+
+    Scheduler_Run(UINT32_MAX);
+    EXPECT_TRUE(l_job0);
+    EXPECT_TRUE(l_job1);
+}

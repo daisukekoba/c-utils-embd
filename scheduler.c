@@ -93,13 +93,16 @@ void Scheduler_Run(uint32_t tick)
     if (!l_active) {
         return;
     }
-    const uint32_t diff = tick - l_tick;
+    uint32_t diff = tick - l_tick;
+    if (diff > (uint32_t)INT32_MAX) {
+        diff = (uint32_t)INT32_MAX;
+    }
     l_tick = tick;
     for (int i = 0; i < SCHEDULER_JOB_NUM; ++i) {
         if (!l_job[i].job) {
             continue;
         }
-        l_job[i].remain -= diff;
+        l_job[i].remain -= (int32_t)diff;
         if (l_job[i].remain <= 0) {
             l_job[i].remain = l_job[i].interval;
             l_job[i].job();
