@@ -27,8 +27,12 @@ test:
 .PHONY: test
 
 doc:
-	if [ ! -d $(BUILD_DIR) ]; then mkdir $(BUILD_DIR); fi
-	doxygen
+	if [ ! -d $(BUILD_DIR) ]; then mkdir -p $(BUILD_DIR); fi
+	if [ ! -f $(BUILD_DIR)/Doxyfile ]; then \
+        sed -e 's|\(HTML_OUTPUT *=\)\(.*\)|\1 $(BUILD_DIR)/html|' Doxyfile \
+            > $(BUILD_DIR)/Doxyfile; \
+    fi
+	doxygen $(BUILD_DIR)/Doxyfile
 .PHONY: doc
 
 clean:
