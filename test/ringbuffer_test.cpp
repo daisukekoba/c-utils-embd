@@ -28,6 +28,20 @@ extern "C" {
 #include "ringbuffer.h"
 }
 
+TEST(RingBuffer, Next)
+{
+    EXPECT_EQ(1, ringbuffer_next(0));
+    EXPECT_EQ(2, ringbuffer_next(1));
+    EXPECT_EQ(0, ringbuffer_next(RINGBUFFER_SIZE));
+}
+
+TEST(RingBuffer, Prev)
+{
+    EXPECT_EQ(RINGBUFFER_SIZE, ringbuffer_prev(0));
+    EXPECT_EQ(0, ringbuffer_prev(1));
+    EXPECT_EQ(1, ringbuffer_prev(2));
+}
+
 TEST(RingBuffer, Init)
 {
     ringbuffer_t rb;
@@ -138,4 +152,56 @@ TEST(RingBuffer, FiFo)
         ringbuffer_Pop(&rb, &b);
         EXPECT_EQ(a, b);
     }
+}
+
+TEST(RingBuffer, Front)
+{
+    ringbuffer_t rb;
+    char a;
+    char b;
+
+    ringbuffer_Init(&rb);
+    EXPECT_FALSE(ringbuffer_Front(&rb, &b));
+    a = 1;
+    ringbuffer_Push(&rb, &a);
+    EXPECT_TRUE(ringbuffer_Front(&rb, &b));
+    EXPECT_EQ(1, b);
+    EXPECT_FALSE(ringbuffer_IsEmpty(&rb));
+    EXPECT_TRUE(ringbuffer_Front(&rb, &b));
+    EXPECT_EQ(1, b);
+    EXPECT_FALSE(ringbuffer_IsEmpty(&rb));
+    a = 2;
+    ringbuffer_Push(&rb, &a);
+    EXPECT_TRUE(ringbuffer_Front(&rb, &b));
+    EXPECT_EQ(1, b);
+    ringbuffer_Pop(&rb, &b);
+    EXPECT_TRUE(ringbuffer_Front(&rb, &b));
+    EXPECT_EQ(2, b);
+    EXPECT_FALSE(ringbuffer_IsEmpty(&rb));
+}
+
+TEST(RingBuffer, Back)
+{
+    ringbuffer_t rb;
+    char a;
+    char b;
+
+    ringbuffer_Init(&rb);
+    EXPECT_FALSE(ringbuffer_Back(&rb, &b));
+    a = 1;
+    ringbuffer_Push(&rb, &a);
+    EXPECT_TRUE(ringbuffer_Back(&rb, &b));
+    EXPECT_EQ(1, b);
+    EXPECT_FALSE(ringbuffer_IsEmpty(&rb));
+    EXPECT_TRUE(ringbuffer_Back(&rb, &b));
+    EXPECT_EQ(1, b);
+    EXPECT_FALSE(ringbuffer_IsEmpty(&rb));
+    a = 2;
+    ringbuffer_Push(&rb, &a);
+    EXPECT_TRUE(ringbuffer_Back(&rb, &b));
+    EXPECT_EQ(2, b);
+    ringbuffer_Pop(&rb, &b);
+    EXPECT_TRUE(ringbuffer_Back(&rb, &b));
+    EXPECT_EQ(2, b);
+    EXPECT_FALSE(ringbuffer_IsEmpty(&rb));
 }

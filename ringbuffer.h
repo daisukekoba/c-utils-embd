@@ -52,6 +52,15 @@ static uint8_t ringbuffer_next(uint8_t p)
     return p;
 }
 
+static uint8_t ringbuffer_prev(uint8_t p)
+{
+    if (p == 0) {
+        p = RINGBUFFER_SIZE + 1;
+    }
+    --p;
+    return p;
+}
+
 static void ringbuffer_Init(ringbuffer_t* buf)
 {
     buf->rp = 0;
@@ -87,5 +96,25 @@ static bool ringbuffer_Pop(ringbuffer_t* buf, RINGBUFFER_ELEMENT_T* e)
 
     *e = buf->buf[buf->rp];
     buf->rp = ringbuffer_next(buf->rp);
+    return true;
+}
+
+static bool ringbuffer_Front(ringbuffer_t* buf, RINGBUFFER_ELEMENT_T* e)
+{
+    if (ringbuffer_IsEmpty(buf)) {
+        return /*Empty*/ false;
+    }
+
+    *e = buf->buf[buf->rp];
+    return true;
+}
+
+static bool ringbuffer_Back(ringbuffer_t* buf, RINGBUFFER_ELEMENT_T* e)
+{
+    if (ringbuffer_IsEmpty(buf)) {
+        return /*Empty*/ false;
+    }
+
+    *e = buf->buf[ringbuffer_prev(buf->wp)];
     return true;
 }
