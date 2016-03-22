@@ -35,7 +35,7 @@ CXX = g++
 LD = g++
 
 CFLAGS = -Wall -Os --std=c99
-CXXFLAGS = -Wall -Os
+CXXFLAGS = -Wall -Os -D__STDC_LIMIT_MACROS
 
 ifeq ($(OS),Windows_NT)
 TARGET = test.exe
