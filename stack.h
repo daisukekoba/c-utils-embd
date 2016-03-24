@@ -77,7 +77,7 @@ static bool stack_Pop(stack_t* buf, STACK_ELEMENT_T* e)
     return true;
 }
 
-static bool stack_Top(stack_t* buf, STACK_ELEMENT_T* e)
+static bool stack_Top(const stack_t* buf, STACK_ELEMENT_T* e)
 {
     if (stack_IsEmpty(buf)) {
         return /*Empty*/ false;
