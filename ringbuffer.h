@@ -99,7 +99,7 @@ static bool ringbuffer_Pop(ringbuffer_t* buf, RINGBUFFER_ELEMENT_T* e)
     return true;
 }
 
-static bool ringbuffer_Front(ringbuffer_t* buf, RINGBUFFER_ELEMENT_T* e)
+static bool ringbuffer_Front(const ringbuffer_t* buf, RINGBUFFER_ELEMENT_T* e)
 {
     if (ringbuffer_IsEmpty(buf)) {
         return /*Empty*/ false;
@@ -109,7 +109,7 @@ static bool ringbuffer_Front(ringbuffer_t* buf, RINGBUFFER_ELEMENT_T* e)
     return true;
 }
 
-static bool ringbuffer_Back(ringbuffer_t* buf, RINGBUFFER_ELEMENT_T* e)
+static bool ringbuffer_Back(const ringbuffer_t* buf, RINGBUFFER_ELEMENT_T* e)
 {
     if (ringbuffer_IsEmpty(buf)) {
         return /*Empty*/ false;
