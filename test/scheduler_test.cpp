@@ -84,6 +84,10 @@ TEST(Scheduler, RegisterSameJob)
     Scheduler_Init();
     EXPECT_TRUE(Scheduler_Register(0, 1, job0));
     EXPECT_FALSE(Scheduler_Register(0, 1, job0));
+
+    EXPECT_TRUE(Scheduler_Register(0, 1, job1));
+    EXPECT_TRUE(Scheduler_Unregister(job0));
+    EXPECT_FALSE(Scheduler_Register(0, 1, job1));
 }
 
 TEST(Scheduler, RegisterLimit)

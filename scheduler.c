@@ -66,6 +66,8 @@ bool Scheduler_Register(uint32_t start, uint32_t interval, void (*job)(void))
         if (l_job[i].job == job) {
             return false;
         }
+    }
+    for (int i = 0; i < SCHEDULER_JOB_NUM; ++i) {
         if (l_job[i].job) {
             continue;
         }
