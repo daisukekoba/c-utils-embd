@@ -59,6 +59,9 @@ void Scheduler_Stop(void) { l_active = false; }
 
 bool Scheduler_Register(uint32_t start, uint32_t interval, void (*job)(void))
 {
+    if (!job) {
+        return false;
+    }
     if ((start > (uint32_t)INT32_MAX) || (interval > (uint32_t)INT32_MAX)) {
         return false;
     }
@@ -81,6 +84,9 @@ bool Scheduler_Register(uint32_t start, uint32_t interval, void (*job)(void))
 
 bool Scheduler_Unregister(void (*job)(void))
 {
+    if (!job) {
+        return false;
+    }
     for (int i = 0; i < SCHEDULER_JOB_NUM; ++i) {
         if (l_job[i].job == job) {
             l_job[i].job = 0;
