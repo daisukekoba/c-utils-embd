@@ -2,6 +2,11 @@
 
 C utility libraries for embedded systems.
 
+## Features
+
+- C99
+- One header file libraries
+
 ## Files
 
 Name                  |Description
