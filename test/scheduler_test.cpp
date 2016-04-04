@@ -79,6 +79,12 @@ TEST(Scheduler, Register)
     EXPECT_FALSE(Scheduler_Register(0, 1, job16));
 }
 
+TEST(Scheduler, RegisterNull)
+{
+    Scheduler_Init();
+    EXPECT_FALSE(Scheduler_Register(0, 1, 0));
+}
+
 TEST(Scheduler, RegisterSameJob)
 {
     Scheduler_Init();
@@ -106,6 +112,12 @@ TEST(Scheduler, Unregister)
 
     EXPECT_TRUE(Scheduler_Register(0, 1, job0));
     EXPECT_FALSE(Scheduler_Unregister(job1));
+}
+
+TEST(Scheduler, UnregisterNull)
+{
+    Scheduler_Init();
+    EXPECT_FALSE(Scheduler_Unregister(0));
 }
 
 TEST(Scheduler, StopAndStart)
