@@ -4,14 +4,15 @@ C utility libraries for embedded systems.
 
 ## Files
 
-Name           |Description
----------------|-------------------------------
-`binary.h`     | Binary literals
-`hexstring.c`  | Hex string/binary converter
-`ringbuffer.h` | Ring buffer - fixed size queue
-`scheduler.c`  | Scheduler
-`stack.h`      | Stack
-`test/`        | Test code with googletest
+Name                  |Description
+----------------------|-------------------------------
+`binary.h`            |Binary literals
+`commanddispatcher.c` |Command dispatcher
+`hexstring.c`         |Hex string/binary converter
+`ringbuffer.h`        |Ring buffer - fixed size queue
+`scheduler.c`         |Scheduler
+`stack.h`             |Stack
+`test/`               |Test code with googletest
 
 ## License
 
