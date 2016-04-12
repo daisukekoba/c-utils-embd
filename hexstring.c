@@ -71,7 +71,7 @@ void* hexstrtobin(void* dst, const char* src)
         return dst;
     }
     unsigned char* d = dst;
-    while (*src) {
+    while (*src && *(src + 1)) {
         *d = tobin(*src++) << 4;
         *d += tobin(*src++);
         ++d;

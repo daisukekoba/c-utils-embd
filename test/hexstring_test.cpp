@@ -74,11 +74,25 @@ TEST(HexString, ToBin)
 
 TEST(HexString, ToBinNull)
 {
-    const char* src = "A";
+    const char* src = "AA";
     unsigned char dst[2] = { 1, 2 };
     EXPECT_EQ(0, hexstrtobin(0, src));
 
     EXPECT_EQ(dst, hexstrtobin(dst, 0));
     EXPECT_EQ(1, dst[0]);
+    EXPECT_EQ(2, dst[1]);
+}
+
+TEST(HexString, ToBinOddChars)
+{
+    const char* src1 = "F";
+    const char* src2 = "ABC";
+    unsigned char dst[2] = { 1, 2 };
+    EXPECT_EQ(dst, hexstrtobin(dst, src1));
+    EXPECT_EQ(1, dst[0]);
+    EXPECT_EQ(2, dst[1]);
+
+    EXPECT_EQ(dst, hexstrtobin(dst, src2));
+    EXPECT_EQ(0xAB, dst[0]);
     EXPECT_EQ(2, dst[1]);
 }
