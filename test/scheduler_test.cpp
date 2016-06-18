@@ -189,6 +189,20 @@ TEST(Scheduler, StartTime)
     reset();
 }
 
+TEST(Scheduler, RegisterAfterStart)
+{
+    reset();
+    Scheduler_Init();
+    Scheduler_Start(1000);
+    Scheduler_Run(1000);
+    EXPECT_FALSE(l_job0);
+    EXPECT_TRUE(Scheduler_Register(2, 3, job0));
+    Scheduler_Run(1001);
+    EXPECT_FALSE(l_job0);
+    Scheduler_Run(1002);
+    EXPECT_TRUE(l_job0);
+}
+
 TEST(Scheduler, RegularIntervals)
 {
     reset();

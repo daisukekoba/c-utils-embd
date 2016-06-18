@@ -74,6 +74,7 @@ bool Scheduler_Register(uint32_t start, uint32_t interval, void (*job)(void))
         if (l_job[i].job) {
             continue;
         }
+        l_job[i].remain = (int32_t)start;
         l_job[i].start = (int32_t)start;
         l_job[i].interval = (int32_t)interval;
         l_job[i].job = job;
