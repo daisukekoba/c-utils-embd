@@ -29,6 +29,7 @@ TEST_SRCS = $(wildcard *_test.cpp)
 OBJS = $(patsubst %.c,$(BUILD_DIR)/%.o,$(SRCS)) \
         $(patsubst %.cpp,$(BUILD_DIR)/%.o,$(TEST_SRCS)) \
         $(addprefix $(BUILD_DIR)/,gtest-all.o gtest_main.o)
+DEPENDS = $(patsubst %.c,$(BUILD_DIR)/%.d,$(SRCS))
 
 CC = gcc
 CXX = g++
@@ -36,6 +37,7 @@ LD = g++
 
 CFLAGS = -Wall -Os --std=c99
 CXXFLAGS = -Wall -Os -D__STDC_LIMIT_MACROS
+CPPFLAGS = --std=c99
 
 ifeq ($(OS),Windows_NT)
 TARGET = test.exe
@@ -62,9 +64,24 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	if [ ! -d $(BUILD_DIR) ]; then mkdir -p $(BUILD_DIR); fi
 	$(CC) -o $@ -c $(CFLAGS) -I$(SRC_DIR) $<
 
+$(BUILD_DIR)/%.d: $(SRC_DIR)/%.c
+	set -e; $(CC) -MM $(CPPFLAGS) $< \
+        | sed -e 's|\($*\)\.o[ :]*|$(BUILD_DIR)/\1.o $@ : |g' \
+        > $@
+
+depend: $(DEPENDS)
+.PHONY: depend
+
+ifneq ($(MAKECMDGOALS),clean)
+ifneq ($(MAKECMDGOALS),distclean)
+-include $(DEPENDS)
+endif
+endif
+
 clean:
 	$(RM) $(BUILD_DIR)/$(TARGET)
 	$(RM) $(BUILD_DIR)/*.o
+	$(RM) $(BUILD_DIR)/*.d
 .PHONY: clean
 
 distclean:
