@@ -27,7 +27,7 @@
 #include "commanddispatcher.h"
 
 typedef struct {
-    uint8_t cmd;
+    uint8_t id;
     void (*proc)(const void*);
 } proc_t;
 
@@ -40,7 +40,7 @@ void CommandDispatcher_Init(void)
     }
 }
 
-bool CommandDispatcher_Register(uint8_t cmd, void (*proc)(const void*))
+bool CommandDispatcher_Register(uint8_t id, void (*proc)(const void*))
 {
     if (!proc) {
         return false;
@@ -54,7 +54,7 @@ bool CommandDispatcher_Register(uint8_t cmd, void (*proc)(const void*))
         if (l_proc[i].proc) {
             continue;
         }
-        l_proc[i].cmd = cmd;
+        l_proc[i].id = id;
         l_proc[i].proc = proc;
         return true;
     }
@@ -75,14 +75,14 @@ bool CommandDispatcher_Unregister(void (*proc)(const void*))
     return false;
 }
 
-void CommandDispatcher_Dispatch(uint8_t cmd, const void* arg)
+void CommandDispatcher_Dispatch(uint8_t id, const void* p)
 {
     for (int i = 0; i < COMMANDDISPATCHER_PROC_NUM; ++i) {
         if (!l_proc[i].proc) {
             continue;
         }
-        if (l_proc[i].cmd == cmd) {
-            l_proc[i].proc(arg);
+        if (l_proc[i].id == id) {
+            l_proc[i].proc(p);
         }
     }
 }

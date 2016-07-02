@@ -32,8 +32,8 @@
 #define COMMANDDISPATCHER_PROC_NUM (16)
 
 void CommandDispatcher_Init(void);
-bool CommandDispatcher_Register(uint8_t cmd, void (*proc)(const void*));
+bool CommandDispatcher_Register(uint8_t id, void (*proc)(const void*));
 bool CommandDispatcher_Unregister(void (*proc)(const void*));
-void CommandDispatcher_Dispatch(uint8_t cmd, const void* arg);
+void CommandDispatcher_Dispatch(uint8_t id, const void* p);
 
 #endif /* COMMANDDISPATCHER_H_ */
