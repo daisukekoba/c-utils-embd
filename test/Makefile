@@ -29,7 +29,8 @@ TEST_SRCS = $(wildcard *_test.cpp)
 OBJS = $(patsubst %.c,$(BUILD_DIR)/%.o,$(SRCS)) \
         $(patsubst %.cpp,$(BUILD_DIR)/%.o,$(TEST_SRCS)) \
         $(addprefix $(BUILD_DIR)/,gtest-all.o gtest_main.o)
-DEPENDS = $(patsubst %.c,$(BUILD_DIR)/%.d,$(SRCS))
+DEPENDS = $(patsubst %.c,$(BUILD_DIR)/%.d,$(SRCS)) \
+        $(patsubst %.cpp,$(BUILD_DIR)/%.d,$(TEST_SRCS))
 
 CC = gcc
 CXX = g++
@@ -66,6 +67,11 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 
 $(BUILD_DIR)/%.d: $(SRC_DIR)/%.c
 	set -e; $(CC) -MM $(CPPFLAGS) $< \
+        | sed -e 's|\($*\)\.o[ :]*|$(BUILD_DIR)/\1.o $@ : |g' \
+        > $@
+
+$(BUILD_DIR)/%.d: %.cpp
+	set -e; $(CC) -MM $(CPPFLAGS) -I$(SRC_DIR) $< \
         | sed -e 's|\($*\)\.o[ :]*|$(BUILD_DIR)/\1.o $@ : |g' \
         > $@
 
