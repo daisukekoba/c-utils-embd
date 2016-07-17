@@ -38,7 +38,6 @@ LD = g++
 
 CFLAGS = -Wall -Os --std=c99
 CXXFLAGS = -Wall -Os -D__STDC_LIMIT_MACROS
-CPPFLAGS = --std=c99
 
 ifeq ($(OS),Windows_NT)
 TARGET = test.exe
@@ -66,12 +65,12 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) -o $@ -c $(CFLAGS) -I$(SRC_DIR) $<
 
 $(BUILD_DIR)/%.d: $(SRC_DIR)/%.c
-	set -e; $(CC) -MM $(CPPFLAGS) $< \
+	set -e; $(CC) -MM $(CFLAGS) $< \
         | sed -e 's|\($*\)\.o[ :]*|$(BUILD_DIR)/\1.o $@ : |g' \
         > $@
 
 $(BUILD_DIR)/%.d: %.cpp
-	set -e; $(CC) -MM $(CPPFLAGS) -I$(SRC_DIR) $< \
+	set -e; $(CXX) -MM $(CXXFLAGS) -I$(SRC_DIR) $< \
         | sed -e 's|\($*\)\.o[ :]*|$(BUILD_DIR)/\1.o $@ : |g' \
         > $@
 
