@@ -29,7 +29,9 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#ifndef COMMANDDISPATCHER_PROC_NUM
 #define COMMANDDISPATCHER_PROC_NUM (16)
+#endif
 
 void CommandDispatcher_Init(void);
 bool CommandDispatcher_Register(uint8_t id, void (*proc)(const void*));
