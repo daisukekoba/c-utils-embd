@@ -28,47 +28,47 @@
 
 typedef struct {
     uint8_t id;
-    void (*proc)(const void*);
-} proc_t;
+    void (*func)(const void*);
+} func_t;
 
-static proc_t l_proc[COMMANDDISPATCHER_PROC_NUM];
+static func_t l_func[COMMANDDISPATCHER_FUNC_NUM];
 
 void CommandDispatcher_Init(void)
 {
-    for (int i = 0; i < COMMANDDISPATCHER_PROC_NUM; ++i) {
-        l_proc[i].proc = 0;
+    for (int i = 0; i < COMMANDDISPATCHER_FUNC_NUM; ++i) {
+        l_func[i].func = 0;
     }
 }
 
-bool CommandDispatcher_Register(uint8_t id, void (*proc)(const void*))
+bool CommandDispatcher_Register(uint8_t id, void (*func)(const void*))
 {
-    if (!proc) {
+    if (!func) {
         return false;
     }
-    for (int i = 0; i < COMMANDDISPATCHER_PROC_NUM; ++i) {
-        if (l_proc[i].proc == proc) {
+    for (int i = 0; i < COMMANDDISPATCHER_FUNC_NUM; ++i) {
+        if (l_func[i].func == func) {
             return false;
         }
     }
-    for (int i = 0; i < COMMANDDISPATCHER_PROC_NUM; ++i) {
-        if (l_proc[i].proc) {
+    for (int i = 0; i < COMMANDDISPATCHER_FUNC_NUM; ++i) {
+        if (l_func[i].func) {
             continue;
         }
-        l_proc[i].id = id;
-        l_proc[i].proc = proc;
+        l_func[i].id = id;
+        l_func[i].func = func;
         return true;
     }
     return false;
 }
 
-bool CommandDispatcher_Unregister(void (*proc)(const void*))
+bool CommandDispatcher_Unregister(void (*func)(const void*))
 {
-    if (!proc) {
+    if (!func) {
         return false;
     }
-    for (int i = 0; i < COMMANDDISPATCHER_PROC_NUM; ++i) {
-        if (l_proc[i].proc == proc) {
-            l_proc[i].proc = 0;
+    for (int i = 0; i < COMMANDDISPATCHER_FUNC_NUM; ++i) {
+        if (l_func[i].func == func) {
+            l_func[i].func = 0;
             return true;
         }
     }
@@ -77,12 +77,12 @@ bool CommandDispatcher_Unregister(void (*proc)(const void*))
 
 void CommandDispatcher_Dispatch(uint8_t id, const void* p)
 {
-    for (int i = 0; i < COMMANDDISPATCHER_PROC_NUM; ++i) {
-        if (!l_proc[i].proc) {
+    for (int i = 0; i < COMMANDDISPATCHER_FUNC_NUM; ++i) {
+        if (!l_func[i].func) {
             continue;
         }
-        if (l_proc[i].id == id) {
-            l_proc[i].proc(p);
+        if (l_func[i].id == id) {
+            l_func[i].func(p);
         }
     }
 }

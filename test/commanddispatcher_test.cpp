@@ -27,60 +27,60 @@ extern "C" {
 }
 
 namespace {
-bool l_proc0;
-bool l_proc1;
-bool l_proc2;
+bool l_func0;
+bool l_func1;
+bool l_func2;
 
 void reset()
 {
-    l_proc0 = false;
-    l_proc1 = false;
-    l_proc2 = false;
+    l_func0 = false;
+    l_func1 = false;
+    l_func2 = false;
 }
 
-void proc0(const void* p) { l_proc0 = true; }
-void proc1(const void* p) { l_proc1 = true; }
-void proc2(const void* p) { l_proc2 = true; }
-void proc3(const void* p)
+void func0(const void* p) { l_func0 = true; }
+void func1(const void* p) { l_func1 = true; }
+void func2(const void* p) { l_func2 = true; }
+void func3(const void* p)
 {
     EXPECT_EQ(1, ((uint8_t*)(p))[0]);
     EXPECT_EQ(2, ((uint8_t*)(p))[1]);
 }
-void proc4(const void* p) {}
-void proc5(const void* p) {}
-void proc6(const void* p) {}
-void proc7(const void* p) {}
-void proc8(const void* p) {}
-void proc9(const void* p) {}
-void proc10(const void* p) {}
-void proc11(const void* p) {}
-void proc12(const void* p) {}
-void proc13(const void* p) {}
-void proc14(const void* p) {}
-void proc15(const void* p) {}
-void proc16(const void* p) {}
+void func4(const void* p) {}
+void func5(const void* p) {}
+void func6(const void* p) {}
+void func7(const void* p) {}
+void func8(const void* p) {}
+void func9(const void* p) {}
+void func10(const void* p) {}
+void func11(const void* p) {}
+void func12(const void* p) {}
+void func13(const void* p) {}
+void func14(const void* p) {}
+void func15(const void* p) {}
+void func16(const void* p) {}
 }
 
 TEST(CommandDispatcher, Register)
 {
     CommandDispatcher_Init();
-    EXPECT_TRUE(CommandDispatcher_Register(0, proc0));
-    EXPECT_TRUE(CommandDispatcher_Register(1, proc1));
-    EXPECT_TRUE(CommandDispatcher_Register(2, proc2));
-    EXPECT_TRUE(CommandDispatcher_Register(3, proc3));
-    EXPECT_TRUE(CommandDispatcher_Register(4, proc4));
-    EXPECT_TRUE(CommandDispatcher_Register(5, proc5));
-    EXPECT_TRUE(CommandDispatcher_Register(6, proc6));
-    EXPECT_TRUE(CommandDispatcher_Register(7, proc7));
-    EXPECT_TRUE(CommandDispatcher_Register(8, proc8));
-    EXPECT_TRUE(CommandDispatcher_Register(9, proc9));
-    EXPECT_TRUE(CommandDispatcher_Register(10, proc10));
-    EXPECT_TRUE(CommandDispatcher_Register(11, proc11));
-    EXPECT_TRUE(CommandDispatcher_Register(12, proc12));
-    EXPECT_TRUE(CommandDispatcher_Register(13, proc13));
-    EXPECT_TRUE(CommandDispatcher_Register(14, proc14));
-    EXPECT_TRUE(CommandDispatcher_Register(15, proc15));
-    EXPECT_FALSE(CommandDispatcher_Register(16, proc16));
+    EXPECT_TRUE(CommandDispatcher_Register(0, func0));
+    EXPECT_TRUE(CommandDispatcher_Register(1, func1));
+    EXPECT_TRUE(CommandDispatcher_Register(2, func2));
+    EXPECT_TRUE(CommandDispatcher_Register(3, func3));
+    EXPECT_TRUE(CommandDispatcher_Register(4, func4));
+    EXPECT_TRUE(CommandDispatcher_Register(5, func5));
+    EXPECT_TRUE(CommandDispatcher_Register(6, func6));
+    EXPECT_TRUE(CommandDispatcher_Register(7, func7));
+    EXPECT_TRUE(CommandDispatcher_Register(8, func8));
+    EXPECT_TRUE(CommandDispatcher_Register(9, func9));
+    EXPECT_TRUE(CommandDispatcher_Register(10, func10));
+    EXPECT_TRUE(CommandDispatcher_Register(11, func11));
+    EXPECT_TRUE(CommandDispatcher_Register(12, func12));
+    EXPECT_TRUE(CommandDispatcher_Register(13, func13));
+    EXPECT_TRUE(CommandDispatcher_Register(14, func14));
+    EXPECT_TRUE(CommandDispatcher_Register(15, func15));
+    EXPECT_FALSE(CommandDispatcher_Register(16, func16));
 }
 
 TEST(CommandDispatcher, RegisterNull)
@@ -92,30 +92,30 @@ TEST(CommandDispatcher, RegisterNull)
 TEST(CommandDispatcher, Unregister)
 {
     CommandDispatcher_Init();
-    EXPECT_TRUE(CommandDispatcher_Register(0, proc0));
-    EXPECT_TRUE(CommandDispatcher_Unregister(proc0));
+    EXPECT_TRUE(CommandDispatcher_Register(0, func0));
+    EXPECT_TRUE(CommandDispatcher_Unregister(func0));
 
-    EXPECT_TRUE(CommandDispatcher_Register(1, proc0));
-    EXPECT_FALSE(CommandDispatcher_Unregister(proc1));
-    EXPECT_TRUE(CommandDispatcher_Unregister(proc0));
+    EXPECT_TRUE(CommandDispatcher_Register(1, func0));
+    EXPECT_FALSE(CommandDispatcher_Unregister(func1));
+    EXPECT_TRUE(CommandDispatcher_Unregister(func0));
 }
 
 TEST(CommandDispatcher, UnregisterNull)
 {
     CommandDispatcher_Init();
-    EXPECT_TRUE(CommandDispatcher_Register(0, proc0));
+    EXPECT_TRUE(CommandDispatcher_Register(0, func0));
     EXPECT_FALSE(CommandDispatcher_Unregister(0));
 }
 
-TEST(CommandDispatcher, RegisterSameProc)
+TEST(CommandDispatcher, RegisterSameFunc)
 {
     CommandDispatcher_Init();
-    EXPECT_TRUE(CommandDispatcher_Register(0, proc0));
-    EXPECT_FALSE(CommandDispatcher_Register(1, proc0));
+    EXPECT_TRUE(CommandDispatcher_Register(0, func0));
+    EXPECT_FALSE(CommandDispatcher_Register(1, func0));
 
-    EXPECT_TRUE(CommandDispatcher_Register(2, proc1));
-    EXPECT_TRUE(CommandDispatcher_Unregister(proc0));
-    EXPECT_FALSE(CommandDispatcher_Register(3, proc1));
+    EXPECT_TRUE(CommandDispatcher_Register(2, func1));
+    EXPECT_TRUE(CommandDispatcher_Unregister(func0));
+    EXPECT_FALSE(CommandDispatcher_Register(3, func1));
 }
 
 TEST(CommandDispatcher, Dispatch)
@@ -123,25 +123,25 @@ TEST(CommandDispatcher, Dispatch)
     reset();
     uint8_t arg0[] = { 1, 2 };
     CommandDispatcher_Init();
-    EXPECT_TRUE(CommandDispatcher_Register(0, proc0));
-    EXPECT_TRUE(CommandDispatcher_Register(1, proc1));
-    EXPECT_TRUE(CommandDispatcher_Register(1, proc2));
-    EXPECT_TRUE(CommandDispatcher_Register(2, proc3));
+    EXPECT_TRUE(CommandDispatcher_Register(0, func0));
+    EXPECT_TRUE(CommandDispatcher_Register(1, func1));
+    EXPECT_TRUE(CommandDispatcher_Register(1, func2));
+    EXPECT_TRUE(CommandDispatcher_Register(2, func3));
 
     CommandDispatcher_Dispatch(0, arg0);
-    EXPECT_TRUE(l_proc0);
-    EXPECT_FALSE(l_proc1);
-    EXPECT_FALSE(l_proc2);
+    EXPECT_TRUE(l_func0);
+    EXPECT_FALSE(l_func1);
+    EXPECT_FALSE(l_func2);
 
     reset();
     CommandDispatcher_Dispatch(1, arg0);
-    EXPECT_FALSE(l_proc0);
-    EXPECT_TRUE(l_proc1);
-    EXPECT_TRUE(l_proc2);
+    EXPECT_FALSE(l_func0);
+    EXPECT_TRUE(l_func1);
+    EXPECT_TRUE(l_func2);
 
     reset();
     CommandDispatcher_Dispatch(2, arg0);
-    EXPECT_FALSE(l_proc0);
-    EXPECT_FALSE(l_proc1);
-    EXPECT_FALSE(l_proc2);
+    EXPECT_FALSE(l_func0);
+    EXPECT_FALSE(l_func1);
+    EXPECT_FALSE(l_func2);
 }
