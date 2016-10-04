@@ -29,7 +29,9 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#ifndef SCHEDULER_JOB_NUM
 #define SCHEDULER_JOB_NUM (16)
+#endif
 
 void Scheduler_Init(void);
 void Scheduler_Start(uint32_t tick);
