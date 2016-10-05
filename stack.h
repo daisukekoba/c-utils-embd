@@ -40,21 +40,25 @@ typedef struct {
     uint8_t p;
 } stack_t;
 
+/*! Initialize */
 static void stack_Init(stack_t* buf)
 {
     buf->p = 0;
 }
 
+/*! Test whether stack is empty */
 static bool stack_IsEmpty(const stack_t* buf)
 {
     return buf->p == 0;
 }
 
+/*! Test whether stack is full */
 static bool stack_IsFull(const stack_t* buf)
 {
     return buf->p == STACK_SIZE;
 }
 
+/*! Insert element at the top */
 static bool stack_Push(stack_t* buf, const STACK_ELEMENT_T* e)
 {
     if (stack_IsFull(buf)) {
@@ -66,6 +70,7 @@ static bool stack_Push(stack_t* buf, const STACK_ELEMENT_T* e)
     return true;
 }
 
+/*! Take the top element */
 static bool stack_Pop(stack_t* buf, STACK_ELEMENT_T* e)
 {
     if (stack_IsEmpty(buf)) {
@@ -77,6 +82,7 @@ static bool stack_Pop(stack_t* buf, STACK_ELEMENT_T* e)
     return true;
 }
 
+/*! Access the top element */
 static bool stack_Top(const stack_t* buf, STACK_ELEMENT_T* e)
 {
     if (stack_IsEmpty(buf)) {
