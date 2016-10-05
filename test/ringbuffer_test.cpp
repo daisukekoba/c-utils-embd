@@ -205,3 +205,16 @@ TEST(RingBuffer, Back)
     EXPECT_EQ(2, b);
     EXPECT_FALSE(ringbuffer_IsEmpty(&rb));
 }
+
+TEST(RingBuffer, Null)
+{
+    ringbuffer_t rb;
+    char a;
+
+    ringbuffer_Init(&rb);
+    EXPECT_FALSE(ringbuffer_Push(&rb, 0));
+    EXPECT_TRUE(ringbuffer_Push(&rb, &a));
+    EXPECT_FALSE(ringbuffer_Pop(&rb, 0));
+    EXPECT_FALSE(ringbuffer_Front(&rb, 0));
+    EXPECT_FALSE(ringbuffer_Back(&rb, 0));
+}
