@@ -61,6 +61,9 @@ static bool stack_IsFull(const stack_t* buf)
 /*! Insert element at the top */
 static bool stack_Push(stack_t* buf, const STACK_ELEMENT_T* e)
 {
+    if (!e) {
+        return false;
+    }
     if (stack_IsFull(buf)) {
         return /*Full*/ false;
     }
@@ -73,6 +76,9 @@ static bool stack_Push(stack_t* buf, const STACK_ELEMENT_T* e)
 /*! Take the top element */
 static bool stack_Pop(stack_t* buf, STACK_ELEMENT_T* e)
 {
+    if (!e) {
+        return false;
+    }
     if (stack_IsEmpty(buf)) {
         return /*Empty*/ false;
     }
@@ -85,6 +91,9 @@ static bool stack_Pop(stack_t* buf, STACK_ELEMENT_T* e)
 /*! Access the top element */
 static bool stack_Top(const stack_t* buf, STACK_ELEMENT_T* e)
 {
+    if (!e) {
+        return false;
+    }
     if (stack_IsEmpty(buf)) {
         return /*Empty*/ false;
     }

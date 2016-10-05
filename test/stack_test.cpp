@@ -171,3 +171,15 @@ TEST(Stack, Top)
     EXPECT_EQ(1, b);
     EXPECT_FALSE(stack_IsEmpty(&s));
 }
+
+TEST(Stack, Null)
+{
+    stack_t s;
+    unsigned char a;
+
+    stack_Init(&s);
+    EXPECT_FALSE(stack_Push(&s, 0));
+    EXPECT_TRUE(stack_Push(&s, &a));
+    EXPECT_FALSE(stack_Pop(&s, 0));
+    EXPECT_FALSE(stack_Top(&s, 0));
+}
