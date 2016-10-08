@@ -212,9 +212,15 @@ TEST(RingBuffer, Null)
     char a;
 
     ringbuffer_Init(&rb);
+    ringbuffer_Init(0);
     EXPECT_FALSE(ringbuffer_Push(&rb, 0));
     EXPECT_TRUE(ringbuffer_Push(&rb, &a));
     EXPECT_FALSE(ringbuffer_Pop(&rb, 0));
     EXPECT_FALSE(ringbuffer_Front(&rb, 0));
     EXPECT_FALSE(ringbuffer_Back(&rb, 0));
+    EXPECT_FALSE(ringbuffer_Push(0, &a));
+    EXPECT_FALSE(ringbuffer_Push(0, 0));
+    EXPECT_FALSE(ringbuffer_Pop(0, &a));
+    EXPECT_FALSE(ringbuffer_Front(0, &a));
+    EXPECT_FALSE(ringbuffer_Back(0, &a));
 }

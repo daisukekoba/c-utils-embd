@@ -64,6 +64,9 @@ static uint8_t ringbuffer_prev(uint8_t p)
 /*! Initialize */
 static void ringbuffer_Init(ringbuffer_t* buf)
 {
+    if (!buf) {
+        return;
+    }
     buf->rp = 0;
     buf->wp = 0;
 }
@@ -71,19 +74,25 @@ static void ringbuffer_Init(ringbuffer_t* buf)
 /*! Test whether ring buffer is empty */
 static bool ringbuffer_IsEmpty(const ringbuffer_t* buf)
 {
+    if (!buf) {
+        return false;
+    }
     return buf->wp == buf->rp;
 }
 
 /*! Test whether ring buffer is full */
 static bool ringbuffer_IsFull(const ringbuffer_t* buf)
 {
+    if (!buf) {
+        return false;
+    }
     return ringbuffer_next(buf->wp) == buf->rp;
 }
 
 /*! Insert element at the end */
 static bool ringbuffer_Push(ringbuffer_t* buf, const RINGBUFFER_ELEMENT_T* e)
 {
-    if (!e) {
+    if (!buf || !e) {
         return false;
     }
     if (ringbuffer_IsFull(buf)) {
@@ -98,7 +107,7 @@ static bool ringbuffer_Push(ringbuffer_t* buf, const RINGBUFFER_ELEMENT_T* e)
 /*! Take the first element */
 static bool ringbuffer_Pop(ringbuffer_t* buf, RINGBUFFER_ELEMENT_T* e)
 {
-    if (!e) {
+    if (!buf || !e) {
         return false;
     }
     if (ringbuffer_IsEmpty(buf)) {
@@ -113,7 +122,7 @@ static bool ringbuffer_Pop(ringbuffer_t* buf, RINGBUFFER_ELEMENT_T* e)
 /*! Access the first element */
 static bool ringbuffer_Front(const ringbuffer_t* buf, RINGBUFFER_ELEMENT_T* e)
 {
-    if (!e) {
+    if (!buf || !e) {
         return false;
     }
     if (ringbuffer_IsEmpty(buf)) {
@@ -127,7 +136,7 @@ static bool ringbuffer_Front(const ringbuffer_t* buf, RINGBUFFER_ELEMENT_T* e)
 /*! Access the last element */
 static bool ringbuffer_Back(const ringbuffer_t* buf, RINGBUFFER_ELEMENT_T* e)
 {
-    if (!e) {
+    if (!buf || !e) {
         return false;
     }
     if (ringbuffer_IsEmpty(buf)) {
