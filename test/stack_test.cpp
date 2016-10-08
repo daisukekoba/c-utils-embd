@@ -178,8 +178,13 @@ TEST(Stack, Null)
     unsigned char a;
 
     stack_Init(&s);
+    stack_Init(0);
     EXPECT_FALSE(stack_Push(&s, 0));
     EXPECT_TRUE(stack_Push(&s, &a));
     EXPECT_FALSE(stack_Pop(&s, 0));
     EXPECT_FALSE(stack_Top(&s, 0));
+    EXPECT_FALSE(stack_Push(0, &a));
+    EXPECT_FALSE(stack_Push(0, 0));
+    EXPECT_FALSE(stack_Pop(0, &a));
+    EXPECT_FALSE(stack_Top(0, &a));
 }
