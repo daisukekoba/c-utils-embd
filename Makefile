@@ -18,14 +18,18 @@
 #    misrepresented as being the original software.
 # 3. This notice may not be removed or altered from any source distribution.
 
+GREP = grep
+
 BUILD_DIR = _build
 
 SRCS = $(wildcard *.c) $(wildcard *.h) $(wildcard test/*.cpp)
 
+### test: Run unit tests.
 test:
 	$(MAKE) -C test
 .PHONY: test
 
+### doc: Build document.
 doc:
 	if [ ! -d $(BUILD_DIR) ]; then mkdir -p $(BUILD_DIR); fi
 	if [ ! -f $(BUILD_DIR)/Doxyfile ]; then \
@@ -35,17 +39,25 @@ doc:
 	doxygen $(BUILD_DIR)/Doxyfile
 .PHONY: doc
 
+### clean: Delete almost files created by makefile.
 clean:
 	$(MAKE) -C test clean
 	$(RM) -r $(BUILD_DIR)/html
 .PHONY: clean
 
+### distclean: Delete all files and directories created by makefile.
 distclean:
 	$(MAKE) -C test distclean
 	$(RM) doxygen_sqlite3.db
 	$(RM) -r $(BUILD_DIR)
 .PHONY: distclean
 
+### format: Format source code.
 format:
 	clang-format -style=WebKit -i $(filter-out binary.h,$(SRCS))
 .PHONY: format
+
+### help: Show this help.
+help:
+	@$(GREP) '###' $(MAKEFILE_LIST) | $(GREP) -v GREP | sed -e 's/###//' | column -t -s ':'
+.PHONY: help
