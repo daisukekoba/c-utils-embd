@@ -33,6 +33,7 @@ typedef struct {
 
 static func_t l_func[COMMANDDISPATCHER_FUNC_NUM];
 
+/*! Initialize */
 void CommandDispatcher_Init(void)
 {
     for (int i = 0; i < COMMANDDISPATCHER_FUNC_NUM; ++i) {
@@ -40,6 +41,7 @@ void CommandDispatcher_Init(void)
     }
 }
 
+/*! Register function */
 bool CommandDispatcher_Register(uint8_t id, void (*func)(const void*))
 {
     if (!func) {
@@ -61,6 +63,7 @@ bool CommandDispatcher_Register(uint8_t id, void (*func)(const void*))
     return false;
 }
 
+/*! Unregister function */
 bool CommandDispatcher_Unregister(void (*func)(const void*))
 {
     if (!func) {
@@ -75,6 +78,7 @@ bool CommandDispatcher_Unregister(void (*func)(const void*))
     return false;
 }
 
+/*! Dispatch command */
 void CommandDispatcher_Dispatch(uint8_t id, const void* p)
 {
     for (int i = 0; i < COMMANDDISPATCHER_FUNC_NUM; ++i) {
