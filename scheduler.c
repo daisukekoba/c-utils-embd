@@ -37,6 +37,7 @@ static job_t l_job[SCHEDULER_JOB_NUM];
 static uint32_t l_tick;
 static bool l_active;
 
+/*! Initialize */
 void Scheduler_Init(void)
 {
     l_tick = 0;
@@ -46,6 +47,9 @@ void Scheduler_Init(void)
     }
 }
 
+/*! Start
+ * \param tick System tick
+ */
 void Scheduler_Start(uint32_t tick)
 {
     l_tick = tick;
@@ -55,8 +59,14 @@ void Scheduler_Start(uint32_t tick)
     }
 }
 
+/*! Stop */
 void Scheduler_Stop(void) { l_active = false; }
 
+/*! Register job
+ * \param start Delay time
+ * \param interval Time interval
+ * \param job Job
+ */
 bool Scheduler_Register(uint32_t start, uint32_t interval, void (*job)(void))
 {
     if (!job) {
@@ -83,6 +93,7 @@ bool Scheduler_Register(uint32_t start, uint32_t interval, void (*job)(void))
     return false;
 }
 
+/*! Unregister job */
 bool Scheduler_Unregister(void (*job)(void))
 {
     if (!job) {
@@ -97,6 +108,9 @@ bool Scheduler_Unregister(void (*job)(void))
     return false;
 }
 
+/*! Run scheduler
+ * \param tick System tick
+ */
 void Scheduler_Run(uint32_t tick)
 {
     if (!l_active) {
