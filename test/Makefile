@@ -53,23 +53,25 @@ $(BUILD_DIR)/$(TARGET): $(OBJS)
 	$(LD) -o $@ $(LDFLAGS) $^
 
 $(BUILD_DIR)/gtest%.o: $(GTEST_DIR)/src/gtest%.cc
-	if [ ! -d $(BUILD_DIR) ]; then mkdir -p $(BUILD_DIR); fi
+	mkdir -p $(BUILD_DIR)
 	$(CXX) -o $@ -c $(CXXFLAGS) -isystem $(GTEST_DIR)/include -I$(GTEST_DIR) $<
 
 $(BUILD_DIR)/%_test.o: %_test.cpp
-	if [ ! -d $(BUILD_DIR) ]; then mkdir -p $(BUILD_DIR); fi
+	mkdir -p $(BUILD_DIR)
 	$(CXX) -o $@ -c $(CXXFLAGS) -I$(SRC_DIR) -I$(GTEST_DIR)/include $<
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
-	if [ ! -d $(BUILD_DIR) ]; then mkdir -p $(BUILD_DIR); fi
+	mkdir -p $(BUILD_DIR)
 	$(CC) -o $@ -c $(CFLAGS) -I$(SRC_DIR) $<
 
 $(BUILD_DIR)/%.d: $(SRC_DIR)/%.c
+	mkdir -p $(BUILD_DIR)
 	set -e; $(CC) -MM $(CFLAGS) $< \
         | sed -e 's|\($*\)\.o[ :]*|$(BUILD_DIR)/\1.o $@ : |g' \
         > $@
 
 $(BUILD_DIR)/%.d: %.cpp
+	mkdir -p $(BUILD_DIR)
 	set -e; $(CXX) -MM $(CXXFLAGS) -I$(SRC_DIR) $< \
         | sed -e 's|\($*\)\.o[ :]*|$(BUILD_DIR)/\1.o $@ : |g' \
         > $@
