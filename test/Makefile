@@ -43,6 +43,7 @@ ifeq ($(OS),Windows_NT)
 TARGET = test.exe
 else
 TARGET = test
+LDFLAGS = -lpthread
 endif
 
 all: $(BUILD_DIR)/$(TARGET)
@@ -50,7 +51,7 @@ all: $(BUILD_DIR)/$(TARGET)
 .PHONY: all
 
 $(BUILD_DIR)/$(TARGET): $(OBJS)
-	$(LD) -o $@ $(LDFLAGS) $^
+	$(LD) -o $@ $^ $(LDFLAGS)
 
 $(BUILD_DIR)/gtest%.o: $(GTEST_DIR)/src/gtest%.cc
 	mkdir -p $(BUILD_DIR)
