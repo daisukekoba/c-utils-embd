@@ -48,10 +48,7 @@ char* bintohexstr(char* dst, const void* src, size_t n)
 
 static unsigned char tobin(char c)
 {
-    if (c < 0x30) {
-        return 0;
-    }
-    else if (0x30 <= c && c <= 0x39) {
+    if (0x30 <= c && c <= 0x39) {
         return c - 0x30;
     }
     else if (0x41 <= c && c <= 0x46) {
