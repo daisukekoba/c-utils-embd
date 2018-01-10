@@ -31,7 +31,7 @@ test:
 
 ### doc: Build document.
 doc:
-	if [ ! -d $(BUILD_DIR) ]; then mkdir -p $(BUILD_DIR); fi
+	mkdir -p $(BUILD_DIR)
 	if [ ! -f $(BUILD_DIR)/Doxyfile ]; then \
         sed -e 's|\(HTML_OUTPUT *=\).*|\1 $(BUILD_DIR)/html|' Doxyfile \
             > $(BUILD_DIR)/Doxyfile; \
