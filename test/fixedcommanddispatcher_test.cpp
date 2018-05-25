@@ -41,12 +41,18 @@ void reset()
 void func0(const void* p) { l_func0 = true; }
 void func1(const void* p) { l_func1 = true; }
 void func2(const void* p) { l_func2 = true; }
+void func3(const void* p)
+{
+    EXPECT_EQ(1, ((uint8_t*)(p))[0]);
+    EXPECT_EQ(2, ((uint8_t*)(p))[1]);
+}
 } // unnamed namespace
 
 const func_t func[] = {
     { 0, func0 },
     { 1, func1 },
-    { 2, func2 },
+    { 1, func2 },
+    { 2, func3 },
 };
 
 const int func_num = sizeof(func)/sizeof(func[0]);
@@ -65,12 +71,12 @@ TEST(FixedCommandDispatcher, Dispatch)
     FixedCommandDispatcher_Dispatch(1, arg0);
     EXPECT_FALSE(l_func0);
     EXPECT_TRUE(l_func1);
-    EXPECT_FALSE(l_func2);
+    EXPECT_TRUE(l_func2);
 
     reset();
     FixedCommandDispatcher_Dispatch(2, arg0);
     EXPECT_FALSE(l_func0);
     EXPECT_FALSE(l_func1);
-    EXPECT_TRUE(l_func2);
+    EXPECT_FALSE(l_func2);
 }
 
